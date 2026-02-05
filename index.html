@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>For Tara ❤️</title>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@600&family=Quicksand:wght@300;500&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --pink: #ffcad4;
+            --cream: #fdfcf0;
+            --text-color: #7a5c5c;
+        }
+
+        body {
+            background-color: var(--cream);
+            font-family: 'Quicksand', sans-serif;
+            color: var(--text-color);
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            overflow: hidden; 
+        }
+
+        /* Entry Overlay */
+        #overlay {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: var(--cream);
+            z-index: 2000;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.5s ease;
+        }
+
+        #overlay button {
+            background: var(--pink);
+            border: none;
+            padding: 20px 40px;
+            border-radius: 50px;
+            font-family: 'Dancing Script', cursive;
+            font-size: 2rem;
+            color: white;
+            cursor: pointer;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+
+        /* Fixed Scrapbook Positions */
+        .polaroid {
+            position: absolute;
+            background: white;
+            padding: 8px 8px 20px 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+            width: 140px;
+            z-index: 1;
+        }
+
+        .polaroid img {
+            width: 100%;
+            aspect-ratio: 1/1;
+            object-fit: cover;
+        }
+	/* Focus on the top of the photo (good if heads are cut off) */
+	.polaroid.crop-top img {
+    	object-position: top !important;
+	}
+
+	/* Focus on the bottom of the photo */
+	.polaroid.crop-bottom img {
+    	object-position: bottom !important;
+	}
+
+	/* Custom crop: 
+   	First value is horizontal (left/right), second is vertical (up/down).
+   	Adjust these percentages until it looks perfect! */
+	.polaroid.custom-crop img {
+    	object-position: 50% 20% !important; 
+	}
+
+        .p1 { top: 5%; left: 5%; transform: rotate(-10deg); }
+        .p2 { top: 5%; right: 5%; transform: rotate(10deg); }
+        .p3 { bottom: 5%; left: 5%; transform: rotate(5deg); }
+        .p4 { bottom: 5%; right: 5%; transform: rotate(-8deg); }
+        .p5 { top: 40%; left: 2%; transform: rotate(-5deg); }
+        .p6 { top: 40%; right: 2%; transform: rotate(7deg); }
+        .p7 { top: 0%; left: 45%; transform: rotate(-3deg); }
+        .p8 { bottom: 2%; left: 45%; transform: rotate(4deg); }
+
+        /* Interaction Area */
+        .content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            max-width: 500px;
+        }
+
+        h1 { font-family: 'Dancing Script', cursive; font-size: 3.5rem; margin: 0; }
+        p { font-size: 1.2rem; line-height: 1.5; margin: 15px 0; }
+        
+        #celebration-gif {
+            display: none;
+            width: 250px;
+            margin: 20px auto;
+            border-radius: 15px;
+        }
+
+        .interactive-box {
+            position: relative;
+            height: 250px;
+            width: 100%;
+	    margin: -50px auto 20px auto;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .btn-container {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        button.main-btn {
+            padding: 15px 35px;
+            border: none;
+            border-radius: 30px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: transform 0.2s ease, opacity 0.3s ease;
+        }
+
+        #yesBtn { 
+            background-color: #ff8fab; 
+            color: white; 
+            z-index: 101; /* Ensure Yes stays on top */
+            position: relative;
+        }
+        #noBtn { 
+            background-color: #e0e0e0; 
+            color: #666; 
+            position: relative; 
+            z-index: 100;
+        }
+
+    </style>
+</head>
+<body>
+
+    <div id="overlay">
+        <p style="font-family: 'Dancing Script'; font-size: 1.5rem;">A message for Tara...</p>
+        <button id="startBtn">Open ❤️</button>
+    </div>
+
+    <audio id="bgMusic" src="music.mp3" loop></audio>
+
+    <div class="polaroid p1 crop-top"><img src="6.jpg"></div>
+    <div class="polaroid p2"><img src="5.jpg"></div>
+    <div class="polaroid p3"><img src="4.jpg"></div>
+    <div class="polaroid p4"><img src="3.jpg"></div>
+    <div class="polaroid p5"><img src="2.jpg"></div>
+    <div class="polaroid p6"><img src="1.PNG"></div>
+    <div class="polaroid p7"><img src="8.jpg"></div>
+    <div class="polaroid p8"><img src="7.PNG"></div>
+	<br>
+	<br>
+	<br>
+    <div class="content">
+        <h1>Hey Tara...</h1>
+        <p class="valentine-text">I might be far away, but my heart is permanently stuck with you🥺💖<br>
+        Would you be my Valentine, even from afar?</p>
+
+        <img id="celebration-gif" src="cat.gif" alt="Celebration GIF">
+
+        <div class="interactive-box" id="safeZone">
+            <div class="btn-container">
+                <button id="yesBtn" class="main-btn">Yes</button>
+                <button id="noBtn" class="main-btn">No</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const startBtn = document.getElementById('startBtn');
+        const bgMusic = document.getElementById('bgMusic');
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        const safeZone = document.getElementById('safeZone');
+        const celebrationGif = document.getElementById('celebration-gif');
+        let yesScale = 1;
+
+        startBtn.addEventListener('click', () => {
+            bgMusic.play().catch(e => console.log("Audio play failed"));
+            document.getElementById('overlay').style.opacity = '0';
+            setTimeout(() => { document.getElementById('overlay').style.display = 'none'; }, 500);
+        });
+
+        noBtn.addEventListener('mouseover', () => {
+            noBtn.style.position = 'absolute';
+            const boxWidth = safeZone.clientWidth;
+            const boxHeight = safeZone.clientHeight;
+            
+            const newX = Math.random() * (boxWidth - noBtn.offsetWidth);
+            const newY = Math.random() * (boxHeight - noBtn.offsetHeight);
+
+            noBtn.style.left = newX + 'px';
+            noBtn.style.top = newY + 'px';
+
+            yesScale += 0.25;
+            yesBtn.style.transform = `scale(${yesScale})`;
+        });
+
+        yesBtn.addEventListener('click', () => {
+            // Sustained Confetti Shower
+            const duration = 5 * 1000;
+            const animationEnd = Date.now() + duration;
+
+            const interval = setInterval(function() {
+                const timeLeft = animationEnd - Date.now();
+                if (timeLeft <= 0) return clearInterval(interval);
+
+                const particleCount = 60 * (timeLeft / duration);
+                
+                // Color mix: Red, Pink, White
+                const colors = ['#ff0000', '#ff8fab', '#ffffff', '#ffcad4'];
+
+                confetti({
+                    particleCount,
+                    spread: 70,
+                    origin: { x: Math.random(), y: Math.random() - 0.2 },
+                    colors: colors
+                });
+            }, 200);
+
+            // Update Text
+            document.querySelector('.content h1').innerText = "YAY! ❤️";
+            document.querySelector('.valentine-text').innerText = "I can't wait to see you soon, Tara!";
+            
+            // Hide everything interactive and show GIF
+            yesBtn.style.display = 'none';
+            noBtn.style.display = 'none';
+            safeZone.style.display = 'none';
+            celebrationGif.style.display = 'block';
+        });
+    </script>
+</body>
+</html>
